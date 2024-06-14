@@ -21,12 +21,14 @@ FROM
     cargo_transport.drivers d;
 
 -- Представление для информации о выполненных работах и оплате
-CREATE VIEW cargo_transport.work_and_payment_info AS
+CREATE OR REPLACE VIEW cargo_transport.work_and_payments AS
 SELECT
     wd.work_id,
     wd.route_id,
     wd.driver_id1,
     wd.driver_id2,
+    wd.vehicle_id1,
+    wd.vehicle_id2,
     wd.departure_date,
     wd.return_date,
     wd.bonus,
@@ -37,24 +39,6 @@ FROM
 JOIN
     cargo_transport.driver_payments dp ON wd.work_id = dp.work_id;
 
-
-
-CREATE VIEW cargo_transport.total_driver_payments AS
+-- Представление для общих выплат водителей
+CREATE OR REPLACE VIEW cargo_transport.total_driver_payments AS
 SELECT * FROM cargo_transport.get_total_payments();
-
-
-CREATE VIEW cargo_transport.work_and_payments AS
-SELECT
-    wd.work_id,
-    wd.route_id,
-    wd.driver_id1,
-    wd.driver_id2,
-    wd.departure_date,
-    wd.return_date,
-    wd.bonus,
-    dp.driver_id,
-    dp.payment
-FROM
-    cargo_transport.work_done wd
-JOIN
-    cargo_transport.driver_payments dp ON wd.work_id = dp.work_id;

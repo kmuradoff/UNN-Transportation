@@ -1,4 +1,4 @@
--- Функция расчета оплаты водителям (Триггерная функция)
+-- Функция расчета оплаты водителям
 CREATE OR REPLACE FUNCTION cargo_transport.calculate_payment()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -41,7 +41,6 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-
 
 -- Функция для получения общих выплат водителей с устранением конфликта имен
 CREATE OR REPLACE FUNCTION cargo_transport.get_total_payments()
