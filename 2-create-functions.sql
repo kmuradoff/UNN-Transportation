@@ -52,3 +52,15 @@ BEGIN
     GROUP BY dp.driver_id;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Функция для добавления записи в таблицу истории трекинговых номеров
+CREATE OR REPLACE FUNCTION cargo_transport.log_tracking_number_change()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.tracking_number IS DISTINCT FROM OLD.tracking_number THEN
+        INSERT INTO cargo_transport.tracking_number_history (route_id, tracking_number)
+        VALUES (NEW.route_id, NEW.tracking_number);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;

@@ -1,13 +1,32 @@
 -- Создание новой схемы
 CREATE SCHEMA cargo_transport;
 
+-- Таблица локаций
+CREATE TABLE cargo_transport.locations (
+    location_id SERIAL PRIMARY KEY,
+    city VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    warehouse_name VARCHAR(255) NOT NULL
+);
+
 -- Таблица маршрутов
 CREATE TABLE cargo_transport.routes (
     route_id SERIAL PRIMARY KEY,
+    tracking_number VARCHAR(255) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
     distance INTEGER NOT NULL,
     days INTEGER NOT NULL,
-    base_payment NUMERIC(10, 2) NOT NULL
+    base_payment NUMERIC(10, 2) NOT NULL,
+    start_location_id INTEGER NOT NULL REFERENCES cargo_transport.locations(location_id),
+    end_location_id INTEGER NOT NULL REFERENCES cargo_transport.locations(location_id)
+);
+
+-- Таблица истории трекинговых номеров
+CREATE TABLE cargo_transport.tracking_number_history (
+    history_id SERIAL PRIMARY KEY,
+    route_id INTEGER NOT NULL REFERENCES cargo_transport.routes(route_id),
+    tracking_number VARCHAR(255) NOT NULL,
+    changed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Таблица водителей

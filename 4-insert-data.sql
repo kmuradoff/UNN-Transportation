@@ -1,8 +1,14 @@
+-- Вставка данных в таблицу локаций
+INSERT INTO cargo_transport.locations (city, country, warehouse_name) VALUES
+('Moscow', 'Russia', 'Warehouse A'),
+('Saint Petersburg', 'Russia', 'Warehouse B'),
+('Kazan', 'Russia', 'Warehouse C');
+
 -- Вставка данных в таблицу маршрутов
-INSERT INTO cargo_transport.routes (name, distance, days, base_payment) VALUES
-('Route A', 500, 2, 1000.00),
-('Route B', 1000, 4, 2000.00),
-('Route C', 1500, 6, 3000.00);
+INSERT INTO cargo_transport.routes (tracking_number, name, distance, days, base_payment, start_location_id, end_location_id) VALUES
+('TRK001', 'Route A', 500, 2, 1000.00, 1, 2),
+('TRK002', 'Route B', 1000, 4, 2000.00, 2, 3),
+('TRK003', 'Route C', 1500, 6, 3000.00, 1, 3);
 
 -- Вставка данных в таблицу водителей
 INSERT INTO cargo_transport.drivers (last_name, first_name, patronymic, experience) VALUES

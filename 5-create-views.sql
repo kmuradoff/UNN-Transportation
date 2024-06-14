@@ -2,12 +2,23 @@
 CREATE VIEW cargo_transport.route_info AS
 SELECT
     r.route_id,
+    r.tracking_number,
     r.name,
     r.distance,
     r.days,
-    r.base_payment
+    r.base_payment,
+    sl.city AS start_city,
+    sl.country AS start_country,
+    sl.warehouse_name AS start_warehouse,
+    el.city AS end_city,
+    el.country AS end_country,
+    el.warehouse_name AS end_warehouse
 FROM
-    cargo_transport.routes r;
+    cargo_transport.routes r
+JOIN
+    cargo_transport.locations sl ON r.start_location_id = sl.location_id
+JOIN
+    cargo_transport.locations el ON r.end_location_id = el.location_id;
 
 -- Представление для информации о водителях
 CREATE VIEW cargo_transport.driver_info AS
